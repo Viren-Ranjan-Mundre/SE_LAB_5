@@ -15,11 +15,16 @@ This Python inventory management script has been updated to prevent exceptions a
 | File Handling in saveData | 38-40 | File could remain open on error | Used `with open()` for automatic file closing |
 | Unsafe eval() | 62 | `eval("print('eval used')")` executes arbitrary code | Removed `eval()` and replaced with safe `print()` |
 
-## Notes
 
-- These changes **fix exceptions and unsafe behavior** without changing the main program logic.  
-<<<<<<< HEAD
-- Optional logging or reporting can be added later for production-quality debugging.
-=======
-- Optional logging or reporting can be added later for production-quality debugging.
->>>>>>> 72bd68c679b50ac9e0a5ac86d3b0678488dc4ca5
+1. **Which issues were the easiest to fix, and which were the hardest?**  
+Mutable default arguments and `eval()` were easiest to fix, while blanket `except:` and type errors were harder because they required careful checks and safe handling.
+
+2. **Did the static analysis tools report any false positives? If so, describe one example.**  
+Bandit flagged the `except:` block; technically correct, but low risk in this small script.
+
+3. **How would you integrate static analysis tools into your actual software development workflow?**  
+Run static analysis locally in the IDE and in CI pipelines (e.g., GitHub Actions) to catch issues before merging.
+
+4. **What tangible improvements did you observe in the code quality, readability, or potential robustness after applying the fixes?**  
+Code is now safer, more robust, readable, and maintainable, with better error handling and no unsafe `eval()`.
+
