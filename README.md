@@ -18,4 +18,8 @@ This Python inventory management script has been updated to prevent exceptions a
 ## Notes
 
 - These changes **fix exceptions and unsafe behavior** without changing the main program logic.  
+<<<<<<< HEAD
 - Optional logging or reporting can be added later for production-quality debugging.
+=======
+- Optional logging or reporting can be added later for production-quality debugging.
+>>>>>>> 72bd68c679b50ac9e0a5ac86d3b0678488dc4ca5
