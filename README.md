@@ -3,35 +3,19 @@
 
 This Python inventory management script has been updated to prevent exceptions and unsafe behavior.
 
-## Key Fixes
+## Changes Summary
 
-- **Mutable default arguments:** 
-  Replaced `logs=[]` with `logs=None` and initialized inside functions.
+| Issue Type | Line(s) | Description | Fix Approach |
+|------------|---------|-------------|--------------|
+| Mutable default arg | 7 | `logs=[]` shared across calls | Change default to `None` and initialize inside the function |
+| Type Safety | 9-12 | `addItem(123, "ten")` could crash on invalid types | Added `isinstance` checks for `item` (str) and `qty` (int) |
+| KeyError in removeItem | 17 | Blanket `except:` hides errors | Replaced with `try/except KeyError` and explicit warning for missing items |
+| KeyError in getQty | 26 | Direct access `stock_data[item]` could raise KeyError | Used `stock_data.get(item, 0)` to return 0 if missing |
+| File Handling in loadData | 30-36 | File missing or JSON invalid could crash | Added `try/except FileNotFoundError, JSONDecodeError` with fallback to empty stock |
+| File Handling in saveData | 38-40 | File could remain open on error | Used `with open()` for automatic file closing |
+| Unsafe eval() | 62 | `eval("print('eval used')")` executes arbitrary code | Removed `eval()` and replaced with safe `print()` |
 
-- **Type safety:** 
-  Added `isinstance` checks for item names and quantities in `addItem` and `removeItem`.
+## Notes
 
-- **KeyError prevention:** 
-  Used `dict.get()` in `getQty()` and added explicit checks for missing items in `removeItem`.
-
-- **File handling:** 
-  Replaced raw `open()` calls with `with open()` context manager and added exception handling for missing or corrupt JSON files.
-
-- **Removed unsafe eval():** 
-  Replaced `eval()` with safe `print()` statements.
-
-- **Logging improvements:** 
-  Optional logging in functions to track changes safely without crashing.
-
-## Usage
-
-```python
-from inventory_system import addItem, removeItem, getQty, saveData, loadData, printData
-
-logs = []
-addItem("apple", 10, logs)
-removeItem("banana", 2)
-print(getQty("apple"))
-saveData()
-loadData()
-printData()
+- These changes **fix exceptions and unsafe behavior** without changing the main program logic.  
+- Optional logging or reporting can be added later for production-quality debugging.
